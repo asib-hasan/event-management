@@ -1,5 +1,6 @@
 <?php
-
+ob_start();
+session_start();
 require_once 'app/core/QueryBuilder.php';
 require_once 'app/core/FrontController.php';
 require_once 'config/Database.php';

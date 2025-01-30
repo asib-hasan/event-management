@@ -16,7 +16,17 @@
                         <h4>Register</h4>
                     </div>
                     <div class="card-body">
-                        <form action="/register" method="POST" onsubmit="return validateForm(event)">
+                        <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    <?php foreach ($_SESSION['errors'] as $error): ?>
+                                        <li><?php echo $error; ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                            <?php unset($_SESSION['errors']); ?>
+                        <?php endif; ?>
+                        <form action="/event-management/register" method="POST" onsubmit="return validateForm(event)">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Full Name</label>
                                 <input type="text" name="name" id="name" class="form-control" required>
