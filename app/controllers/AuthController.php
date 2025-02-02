@@ -68,25 +68,30 @@ class AuthController extends BaseController
 
     public function login()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = htmlspecialchars($_POST['email']);
-            $password = $_POST['password'];
-            $user = $this->user->findByEmail($email);
-
-            if ($user && password_verify($password, $user[0]['password'])) {
-                $_SESSION['user'] = $user[0];
-                header('Location: /event-management');
-            } else {
-                echo "Invalid credentials!";
-            }
+        if(!isset($_SESSION['user'])) {
+            include "views/auth/login.php";
+        } else {
+            header('Location: /event-management');
         }
+    }
+    public function login_attempt()
+    {
+        $email = htmlspecialchars($_POST['email']);
+        $password = $_POST['password'];
+        $user = $this->user->findByEmail($email);
 
-        include "views/auth/login.php";
+        if ($user && password_verify($password, $user[0]['password'])) {
+            $_SESSION['user'] = $user[0];
+            header('Location: /event-management');
+        } else {
+            $_SESSION['error'] = "Incorrect email or password!";
+            header('Location: login');
+        }
     }
 
     public function logout()
     {
         session_destroy();
-        header('Location: login');
+        header('Location: /event-management');
     }
 }

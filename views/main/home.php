@@ -51,24 +51,6 @@
 <body>
 <?php include 'views/include/nav.php' ?>
 <div class="container mt-4">
-    <div class="row mb-4">
-        <div class="col-md-12 search-filter">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Search events...">
-                </div>
-                <div class="col-md-6">
-                    <select class="form-select">
-                        <option value="">Filter by category</option>
-                        <option value="tech">Technology</option>
-                        <option value="business">Business</option>
-                        <option value="education">Education</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <h2 class="mb-4 text-center text-primary">Upcoming Events</h2>
     <div class="row">
         <?php foreach ($event_list as $event): ?>
@@ -80,33 +62,40 @@
                         <p class="card-text"><?php echo htmlspecialchars($event['description']); ?></p>
                         <div class="slot-info">Slots Available: <?php echo $event['total_slot']; ?></div>
                         <div class="mt-2">Event Time: <?php echo date('g:i A', strtotime($event['event_time'])); ?></div>
-                        <div class="mt-2">Location: <?php echo $event['location']; ?></div>
+                        <div class="mt-2">Location: <?php echo htmlspecialchars($event['location']); ?></div>
                         <div class="mt-2">Registration Deadline: <?php echo date('F j, Y', strtotime($event['reg_last_date'])); ?></div>
-                        <a href="/register/<?php echo $event['id']; ?>" class="btn btn-primary w-100 mt-2">Register</a>
+                        <?php
+                        $eventDate = strtotime($event['reg_last_date']);
+                        $today = strtotime(date('Y-m-d'));
+                        $slotsAvailable = $event['total_slot'] > 0;
+                        if ($eventDate >= $today && $slotsAvailable):
+                            $encryptedId = $this->encrypt_decrypt('encrypt', $event['id']);
+                        ?>
+                        <a href="register-event?id=<?php echo $encryptedId; ?>" class="btn btn-primary w-100 mt-2">Register</a>
+                        <?php else: ?>
+                            <button class="btn btn-secondary w-100 mt-2" disabled>Not Available</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
+
     </div>
 
-    <!-- Pagination -->
     <div class="row">
         <div class="col-md-12 text-center">
             <nav>
                 <ul class="pagination justify-content-center">
-                    <!-- Previous Button -->
                     <li class="page-item <?php echo $currentPage <= 1 ? 'disabled' : ''; ?>">
                         <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>" <?php echo $currentPage <= 1 ? 'tabindex="-1"' : ''; ?>>Previous</a>
                     </li>
 
-                    <!-- Page Number Buttons -->
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                         <li class="page-item <?php echo $i == $currentPage ? 'active' : ''; ?>">
                             <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                         </li>
                     <?php endfor; ?>
 
-                    <!-- Next Button -->
                     <li class="page-item <?php echo $currentPage >= $totalPages ? 'disabled' : ''; ?>">
                         <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>" <?php echo $currentPage >= $totalPages ? 'tabindex="-1"' : ''; ?>>Next</a>
                     </li>
@@ -115,7 +104,7 @@
         </div>
     </div>
 </div>
-
 </body>
+<script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 </html>

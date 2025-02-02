@@ -16,16 +16,9 @@
                         <h4>Register</h4>
                     </div>
                     <div class="card-body">
-                        <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
-                            <div class="alert alert-danger">
-                                <ul>
-                                    <?php foreach ($_SESSION['errors'] as $error): ?>
-                                        <li><?php echo $error; ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                            <?php unset($_SESSION['errors']); ?>
-                        <?php endif; ?>
+                        <div class="col-md-12 mt-3">
+                            <?php include 'views/include/alerts.php' ?>
+                        </div>
                         <form action="/event-management/register" method="POST" onsubmit="return validateForm(event)">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Full Name</label>

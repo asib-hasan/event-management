@@ -10,9 +10,14 @@ class FrontController {
     }
 
     public function run() {
-        #$this->checkAuthentication();
-
-        $this->router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $prevent_request = $this->checkAuthentication();
+        if($prevent_request) {
+            session_destroy();
+            header('Location: login');
+            exit();
+        } else {
+            $this->router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        }
     }
 
     public function getRouter() {
@@ -20,29 +25,14 @@ class FrontController {
     }
 
     private function checkAuthentication() {
-        $protectedRoutes = ['create-event', 'my-events', '/edit-event', '/delete-event'];
-
-        if (in_array($_SERVER['REQUEST_URI'], $protectedRoutes)) {
-            if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_agent']) || !isset($_SESSION['ip_address'])) {
-                header('Location: /login');
-                exit();
+        $protectedRoutes = ['/create-event', '/my-events', '/edit-event', '/delete-event', '/event-details', '/download-attendees'];
+        $requestUri = str_replace('/event-management', '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        if (in_array($requestUri, $protectedRoutes)) {
+            if (!isset($_SESSION['user'])) {
+                return true;
             }
-
-            if ($_SESSION['user_agent'] !== $_SERVER['HTTP_USER_AGENT'] || $_SESSION['ip_address'] !== $_SERVER['REMOTE_ADDR']) {
-                session_unset();
-                session_destroy();
-                header('Location: /login');
-                exit();
-            }
-
-            if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1800)) {
-                session_unset();
-                session_destroy();
-                header('Location: /login');
-                exit();
-            }
-
-            $_SESSION['last_activity'] = time();
+        } else {
+            return false;
         }
     }
 

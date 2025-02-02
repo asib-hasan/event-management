@@ -15,8 +15,13 @@ class Events {
         return count($totalEvents);
     }
     public function getEvents($start, $perPage) {
+        $user_id = null;
+        if(isset($_SESSION['user'])) {
+            $user_id = $_SESSION['user']['id'];
+        }
         return $this->queryBuilder->table('events')
             ->select('*')
+            ->where('user_id','=',$user_id)
             ->limit($perPage)
             ->offset($start)
             ->get();
@@ -33,13 +38,15 @@ class Events {
     }
 
     public function getPublicTotalEvents() {
-        $totalPublicEvents = $this->queryBuilder->table('events')->get();
+        $totalPublicEvents = $this->queryBuilder
+            ->where('event_date', '>=', date('Y-m-d'))
+            ->table('events')->get();
         return count($totalPublicEvents);
     }
 
     public function getPublicEvents($start, $perPage) {
         return $this->queryBuilder->table('events')
-//            ->where('event_date', '<=', date('Y-m-d'))
+            ->where('event_date', '>=', date('Y-m-d'))
             ->limit($perPage)
             ->offset($start)
             ->get();

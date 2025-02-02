@@ -16,13 +16,10 @@
                         <h4>Login</h4>
                     </div>
                     <div class="card-body">
-                        <?php if (!empty($_SESSION['error'])): ?>
-                            <div class="alert alert-danger">
-                                <?= $_SESSION['error']; unset($_SESSION['error']); ?>
-                            </div>
-                        <?php endif; ?>
-
-                        <form action="login" method="POST">
+                        <div class="col-md-12 mt-3">
+                            <?php include 'views/include/alerts.php' ?>
+                        </div>
+                        <form action="login-attempt" method="POST">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" required>

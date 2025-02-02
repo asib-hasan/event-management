@@ -15,7 +15,7 @@
     <div class="card-body">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a href="index.php" class="text-decoration-none">
+                <a href="my-events" class="text-decoration-none">
                     <button class="nav-link">List View</button>
                 </a>
             </li>

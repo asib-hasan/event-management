@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 </head>
 <body>
-
 <?php include 'views/include/nav.php' ?>
 
 <div class="container card mt-4 rounded-1 shadow-sm">
@@ -47,9 +46,7 @@
                                 <td><?php echo htmlspecialchars($event['event_date']); ?></td>
                                 <td><?php echo htmlspecialchars($event['total_slot']); ?></td>
                                 <td>
-                                    <!-- Encrypt the ID before passing it in the URL -->
-                                    <?php $encryptedId = urlencode($this->encrypt_decrypt('encrypt', $event['id'])); ?>
-
+                                    <?php $encryptedId = ($this->encrypt_decrypt('encrypt', $event['id'])); ?>
                                     <a href="edit-event?id=<?php echo $encryptedId; ?>" class="btn btn-warning btn-sm">Edit</a>
                                     <a href="event-details?id=<?php echo $encryptedId; ?>" class="btn btn-info btn-sm">Details</a>
                                     <a href="delete-event?id=<?php echo $encryptedId; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
@@ -71,7 +68,6 @@
                             </li>
                         <?php endfor; ?>
                     </ul>
-
                 <?php endif; ?>
             </div>
         </div>

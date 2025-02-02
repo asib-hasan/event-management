@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="">Event Management</a>
+        <a class="navbar-brand fw-bold" href="/event-management">Event Management</a>
         <div class="ms-auto">
             <?php if ($this->checkLoginStatus()): ?>
                 <a href="logout" class="btn btn-outline-light me-2">Log Out</a>
