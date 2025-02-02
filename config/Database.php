@@ -1,6 +1,7 @@
 <?php
 
 class Database {
+    #Singleton
     private static $instance = null;
     private $pdo;
 

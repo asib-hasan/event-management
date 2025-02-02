@@ -12,11 +12,10 @@ class Router {
     }
 
     public function dispatch($method, $uri) {
-        // Remove the base path if any, assuming it's '/project-folder' in your case
-        $uri = preg_replace('/^\/[^\/]+\//', '/', $uri);  // Strip base folder path
+        $requestUri = str_replace('/event-management', '', parse_url($uri, PHP_URL_PATH));
 
         foreach ($this->routes as $route) {
-            if ($route['method'] === $method && $route['path'] === $uri) {
+            if ($route['method'] === $method && $route['path'] === $requestUri) {
                 call_user_func($route['callback']);
                 return;
             }

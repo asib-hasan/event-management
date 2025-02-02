@@ -22,7 +22,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <form action="/login" method="POST">
+                        <form action="login" method="POST">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" name="email" id="email" class="form-control" required>
@@ -44,8 +44,6 @@
             </div>
         </div>
     </div>
-
-
 </main>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 </body>
