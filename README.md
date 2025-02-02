@@ -2,6 +2,28 @@
 
 This is a simple **Event Management System** built with **Raw PHP**, following the **MVC architecture**.
 
+Project Overview
+
+The Event Management System allows users to create, manage, and participate in events. Authenticated users can organize events, while any user can view and register for them. The system ensures smooth event management with essential features like authentication, event registration, and attendee list downloads.
+
+Features
+
+1. Event Creation & Management
+
+Authenticated users can create their own events.
+
+Users can edit, update, and delete their events.
+
+2. Event Participation
+
+Any visitors can view available events, register for them.
+
+Users can register for any event of their choice.
+
+3. Attendee Management
+
+Authenticated users can download the list of attendees for their events in CSV format.
+
 ## **Setup Instructions**
 
 ### **Prerequisites**
